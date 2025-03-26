@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tinto & Empanada</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Raleway:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Raleway', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom right, #1a202c, #2d3748);
+            color: #fff;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+        }
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            color: #ffd700;
+            margin-bottom: 1rem;
+        }
+        .category-section {
+            margin-bottom: 3rem;
+        }
+        .category-title {
+            color: #ffd700;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            font-family: 'Playfair Display', serif;
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .product-card {
+            background: rgba(51, 51, 51, 0.8);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        .product-image {
+            width: 60%;
+            height: autopx;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .product-name {
+            font-size: 1.1rem;
+            margin: 0.5rem 0;
+        }
+        .product-price {
+            color: #ffd700;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+        .add-to-cart {
+            background: #ffd700;
+            color: #1a202c;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            transition: background-color 0.2s;
+        }
+        .add-to-cart:hover {
+            background: #ffed4a;
+        }
+        .cart-section {
+            position: fixed;
+            right: 2rem;
+            top: 2rem;
+            background: #2d3748;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            width: 300px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .cart-items {
+            margin: 1rem 0;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #4a5568;
+        }
+        .cart-total {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 1rem 0;
+            color: #ffd700;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: #2d3748;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            text-align: center;
+        }
+        .modal button {
+            margin: 0.5rem;
+            padding: 0.5rem 1.5rem;
+        }
+        .icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="age-verification" class="modal">
+        <div class="modal-content">
+            <h2>¿Eres mayor de 18 años?</h2>
+            <button onclick="verifyAge(true)">Sí</button>
+            <button onclick="verifyAge(false)">No</button>
+        </div>
+    </div>
+
+       <img src="https://i.ibb.co/bM0Xd7sk/images-9.png" alt="Encabezado" style="width: 100%; height: auto;">
+
+    <div class="container" id="store-content" style="display: none;">
+        <header>
+            <h1 style="font-weight: bold; font-size: 38px;"> Tinto & Empanada </h1>
+
+            
+
+<p style="font-weight: bold; font-size: 18px;">
+    Horario de atención:
+</p>
+
+<p style="font-weight: bold; font-size: 18px;">
+    Lunes a Sábado: 7:00 AM - 4:00 PM <br>
+    Domingos y Festivos: 7:00 AM - 1:00 PM
+</p>
+
+<p style="font-weight: bold; font-size: 18px;">
+   📍Centro
+</p>
+
+<p style="font-weight: bold; font-size: 18px; color: red;">
+    *Aplica Solo para San Gil*
+</p>
+    <h2>Menú de Productos</h2>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Desplegable de Productos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .menu {
+    display: flex;
+    flex-direction: row; /* Alinea en fila */
+    justify-content: center; /* Centra los botones */
+    align-items: center;
+    gap: 10px; /* Espacio entre botones */
+    margin-top: 10px;
+    flex-wrap: wrap; /* Permite varias líneas si no caben */
+    background-color: #ffeb3b; /* Fondo amarillo */
+    padding: 10px;
+    border-radius: 10px; /* Bordes redondeados */
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropbtn {
+    background-color: #ffeb3b; /* Amarillo */
+    border: 2px solid #b0a92e;
+    color: black;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 8px;
+    width: auto;
+}
+
+.dropbtn:hover {
+    background-color: #fdd835; /* Amarillo más oscuro */
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    left: 0;
+    background-color: #ffeb3b; /* Fondo amarillo */
+    min-width: 120px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content ul {
+    display: flex;
+    flex-direction: row; /* Menú desplegable en fila */
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    color: black;
+}
+
+.dropdown-content ul li {
+    padding: 5px 10px;
+}
+
+.dropdown-content a {
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #fdd835; /* Amarillo más oscuro */
+}
+
+        img {
+            width: 30px;
+            height: auto;
+            margin-right: 10px;
+        }
+    </style>
+<div class="dropdown">
+    <button class="dropbtn">Empanadas y mas </button>
+    <div class="dropdown-content">
+        <ul>
+            <li><img src="https://i.ibb.co/ymKyrJk2/k-L-ew9-FDZB4-JXRQo-Qzjy-Ypb-Ltgx-Hf-Vh-removebg-preview-1.png"> Empeanda de yuca - $3000<button onclick="addToCart(10)">Agregar al Carrito</button></li>
+            <li><img src="https://i.ibb.co/dwPNB25Z/arepa-de-huevo-frito-comida-trad-removebg-preview.png"> arepa de huevo - $3000<button onclick="addToCart(10)">Agregar al Carrito</button></li>
+            <li><img src="https://i.ibb.co/fdrVmRwB/papa-rellena-removebg-preview.png"> Papa Rellena- $3000<button onclick="addToCart(10)">Agregar al Carrito</button></li>
+            <li><img src="https://i.ibb.co/7dvhZByB/pngtree-mexican-empanadas-tradit.png"> Empanada Hawaianas - $3000<button onclick="addToCart(10)">Agregar al Carrito</button></li>
+            <li><img src="https://i.ibb.co/7dvhZByB/pngtree-mexican-empanadas-tradit.png"> Empanada Pollo Queso - $3000<button onclick="addToCart(10)">Agregar al Carrito</button></li>
+            <li><img src="https://i.ibb.co/7dvhZByB/pngtree-mexican-empanadas-tradit.png"> Empanada Arroz pollo- $3000<button onclick="addToCart(10)">Agregar al Carrito</button></li>
+            <li><img src="https://i.ibb.co/QLv6ZhJ/a-hot-latte-coffee-cup-free-png.png" alt="a-hot-latte-coffee-cup-free-png"> cafe leche - $1500<button onclick="addToCart(10)">Agregar al Carrito</button></li>
+            <li><img src="https://i.ibb.co/gMqNNTnB/c2bc4343251765-57e94c12d4176-removebg-preview.png"> Tinto- $1000<button onclick="addToCart(10)">Agregar al Carrito</button></li>
+        
+        </ul>
+    </div>
+</div>
+        
+ <div class="dropdown">
+    <button class="dropbtn">Gaseosas</button>
+    <div class="dropdown-content">
+        <ul>
+            <li>
+                <img src="https://i.ibb.co/gWCPZNc/image-removebg-preview-76.png" alt="Coca-Cola Original 1.5L">
+                Coca-Cola Original 1.5L - $6010
+                <button onclick="addToCart(7)">Agregar al Carrito</button>
+            </li>
+            <li>
+                <img src="https://i.ibb.co/yy1Cy1X/coca-zero-01-removebg-preview.png" alt="Coca-Cola Zero 300ml">
+                Coca-Cola Zero 300ml - $3300
+                <button onclick="addToCart(8)">Agregar al Carrito</button>
+            </li>
+            <li>
+                <img src="https://i.ibb.co/gThqq6V/112952-1-109-removebg-preview.png" alt="Coca-Cola Original 330ml">
+                Coca-Cola Original 330ml - $3300
+                <button onclick="addToCart(9)">Agregar al Carrito</button>
+            </li>
+            <li>
+                <img src="https://i.ibb.co/XVGBwns/postobon-400ml-removebg-preview.png" alt="Postobón Manzana 400ml">
+                Postobón Manzana 400ml - $2600
+                <button onclick="addToCart(10)">Agregar al Carrito</button>
+            </li>
+            <li>
+                <img src="https://i.ibb.co/XVGBwns/postobon-400ml-removebg-preview.png" alt="Postobón Uva 400ml">
+                Postobón Uva 400ml - $2600
+                <button onclick="addToCart(11)">Agregar al Carrito</button>
+            </li>
+            <li>
+                <img src="https://i.ibb.co/XVGBwns/postobon-400ml-removebg-preview.png" alt="Postobón Naranja 400ml">
+                Postobón Naranja 400ml - $2600
+                <button onclick="addToCart(12)">Agregar al Carrito</button>
+            </li>
+            <li>
+                <img src="https://i.ibb.co/XVGBwns/postobon-400ml-removebg-preview.png" alt="Postobón Pepsi 400ml">
+                Postobón Pepsi 400ml - $2600
+                <button onclick="addToCart(13)">Agregar al Carrito</button>
+            </li>
+        </ul>
+    </div>
+</div>
+
+    <div class="dropdown">
+    <button class="dropbtn">Rehidratantes</button>
+    <div class="dropdown-content">
+        <ul>
+            <li>
+                <img src="https://i.ibb.co/nD8kLqm/electrolit-removebg-preview-1.png" alt="Electrolit Maracuyá 625ml">
+                Electrolit Maracuyá 625ml - $7500
+                <button onclick="addToCart(1)">Agregar al Carrito</button>
+            </li>
+            <li>
+                <img src="https://i.ibb.co/nD8kLqm/electrolit-removebg-preview-1.png" alt="Electrolit Limón 625ml">
+                Electrolit Limón 625ml - $7500
+                <button onclick="addToCart(2)">Agregar al Carrito</button>
+            </li>
+            <li>
+                <img src="https://i.ibb.co/nD8kLqm/electrolit-removebg-preview-1.png" alt="Electrolit Naranja 625ml">
+                Electrolit Naranja 625ml - $7500
+                <button onclick="addToCart(3)">Agregar al Carrito</button>
+            </li>
+            <li>
+                <img src="https://i.ibb.co/0Mfq5ws/160752-1600-auto-removebg-preview.png" alt="Vive 100 Zero 380ml">
+                Vive 100 Zero 380ml - $2600
+                <button onclick="addToCart(4)">Agregar al Carrito</button>
+            </li>
+            <li>
+                <img src="https://i.ibb.co/gVQ9nkQ/shopping-removebg-preview-1.png" alt="Gatorade 500ml">
+                Gatorade 500ml - $4300
+                <button onclick="addToCart(5)">Agregar al Carrito</button>
+            </li>
+            <li>
+                <img src="https://i.ibb.co/2k8Dv2h/159489-1600-auto-removebg-preview.png" alt="Speed Max 2200ml">
+                Speed Max 2200ml - $2500
+                <button onclick="addToCart(6)">Agregar al Carrito</button>
+            </li>
+        </ul>
+    </div>
+</div>
+
+ <div class="dropdown">
+            <button class="dropbtn">Snacks</button>
+            <div class="dropdown-content">
+                <ul>
+                    <li><img src="https://i.ibb.co/kgVRx5M/197076-800-800-removebg-preview.png"> Papas Margarita 75g - $2900<button onclick="addToCart(66)">Agregar al Carrito</li>
+                    <li><img src="https://i.ibb.co/4g0KhSM/338132-800-800-removebg-preview.png"> De Todito 45g - $3200<button onclick="addToCart(67)">Agregar al Carrito</li>
+                    <li><img src="https://i.ibb.co/FwZrV0M/515-DMl-Nad-UL-removebg-preview-1.png"> Doritos 45g - $2800<button onclick="addToCart(68)">Agregar al Carrito</li>
+                    <li><img src="https://i.ibb.co/RyrFpsJ/supermercados-la-vaquita-superva-removebg-preview.png"> La Especial Mani Krack 25g - $1600<button onclick="addToCart(69)">Agregar al Carrito</li>
+                </ul>
+            </div>
+        </div>
+  
+        
+</body>
+<div class="dropdown">
+    <button class="dropbtn">Confitería</button>
+    <div class="dropdown-content">
+        <ul>
+            <li><img src="https://i.ibb.co/y5C02h6/7622210429209-1-removebg-preview.png" alt="Chiclets Menta x12 chicles"> Chiclets Menta x12 chicles - $1690<button onclick="addToCart(50)">Agregar al Carrito</li>
+            <li><img src="https://i.ibb.co/QMVVGJ2/707491-800-800-removebg-preview.png" alt="Chocolatina Jumbo Chocoarequipe x170grs"> Chocolatina Jumbo Chocoarequipe x170grs - $12990<button onclick="addToCart(51)">Agregar al Carrito</li>
+            <li><img src="https://i.ibb.co/s12sFB1/shopping-1-removebg-preview.png" alt="Chocolatina Jet pq"> Chocolatina Jet pq - $1500<button onclick="addToCart(52)">Agregar al Carrito</li>
+            <li><img src="https://i.ibb.co/q0ZCddK/18-removebg-preview.png" alt="Chocolatina Jet gr"> Chocolatina Jet gr - $2500<button onclick="addToCart(53)">Agregar al Carrito</li>
+            <li><img src="https://i.ibb.co/4dB1pRZ/Galleta-Dulce-Clasica-CHOKIS-222-removebg-preview.png" alt="Galletas CHOKIS Chispas Chocolate"> Galletas CHOKIS Chispas Chocolate - $2000<button onclick="addToCart(54)">Agregar al Carrito</li>
+            <li><img src="https://i.ibb.co/th662r4/946532-800-auto-removebg-preview.png" alt="Ponqué Chocoramo Chocolate 65 G"> Ponqué Chocoramo Chocolate 65 G - $3000<button onclick="addToCart(55)">Agregar al Carrito</li>
+            <li><img src="https://i.ibb.co/1bPnSdz/galletas-oreo-original-54-g-2-removebg-preview.png" alt="Galletas Oreo Original 54 g"> Galletas Oreo Original 54 g - $2200<button onclick="addToCart(56)">Agregar al Carrito</li>
+           
+            <li><img src="https://i.ibb.co/C6WzVDd/7702007061154-removebg-preview.png" alt="Chocolatina Jet Cookies & Cream 50g"> Chocolatina Jet Cookies & Cream 50g - $4000<button onclick="addToCart(58)">Agregar al Carrito</li>
+            <li><img src="https://i.ibb.co/M5LkrLp/Glina-Chocolate-Mani-JUMBO-90-gr-removebg-preview.png" alt="Jumbo Chocolatina Jumbo Jet Maní 90g"> Jumbo Chocolatina Jumbo Jet Maní 90g - $6500<button onclick="addToCart(59)">Agregar al Carrito</li>
+           
+            
+            <li><img src="https://i.ibb.co/09Fpnxj/7506105606053-30-removebg-preview-1.png" alt="Trident Value Menta 30,6g"> Trident Value Menta 30,6g - $4900<button onclick="addToCart(62)">Agregar al Carrito</li>
+           
+            <li><img src="https://i.ibb.co/Zd2nDKh/170709-800-450-removebg-preview.png" alt="Chocolatina Jumbo Rosca 31 G"> Chocolatina Jumbo Rosca 31 G - $3800<button onclick="addToCart(64)">Agregar al Carrito</li>
+            <li><img src="https://i.ibb.co/LZFbsgz/7702914597982-removebg-preview.png" alt="Ponqué Gala Tajada x 60 g Vainilla"> Ponqué Gala Tajada x 60 g Vainilla - $2500<button onclick="addToCart(65)">Agregar al Carrito</li>
+        </ul>
+    </div>
+</div>
+
+</p></p>
+
+    <!-- Buscador -->
+    <div class="search-container">
+                <input type="text" id="search-input" placeholder="Buscar productos..." oninput="searchProducts()">
+                <button onclick="searchProducts()">Buscar</button>
+            </div>
+
+
+
+        </header>
+
+        <main>
+            <div id="products-container"></div>
+        </main>
+
+        <aside class="cart-section">
+            <h2>Carrito de Compras</h2>
+            <div id="cart-items" class="cart-items"></div>
+            <div id="cart-total" class="cart-total">Total: $0</div>
+            <div>
+                <label>
+                    <input type="checkbox" id="delivery-checkbox" onchange="updateTotal()">
+                    Incluir envío ($3,500)
+                </label>
+            </div>
+            <div id="delivery-address" style="display: none;">
+                <input type="text" placeholder="Dirección de envío" id="address-input">
+            </div>
+            <input type="tel" placeholder="Número de teléfono" id="phone-input">
+            <div>
+                <label><input type="radio" name="payment" value="Nequi"> Nequi</label>
+                <label><input type="radio" name="payment" value="Efectivo"> Efectivo</label>
+            </div>
+            <button onclick="checkout()" class="add-to-cart">Finalizar Compra whatsapp 📲 </button>
+        </aside>
+    </div>
+
+
+    <script>
+        const products = [
+          
+            // Empanadas
+{ id: 1, name: 'Empeanda de yuca', price: 3000, category: 'Desayuno', image: 'https://i.ibb.co/ymKyrJk2/k-L-ew9-FDZB4-JXRQo-Qzjy-Ypb-Ltgx-Hf-Vh-removebg-preview-1.png' },
+{ id: 2, name: 'arepa de huevo ', price: 3000, category: 'Desayuno', image: 'https://i.ibb.co/dwPNB25Z/arepa-de-huevo-frito-comida-trad-removebg-preview.png' },
+{ id: 3, name: 'Papa Rellena', price: 3000, category: 'Desayuno', image: 'https://i.ibb.co/fdrVmRwB/papa-rellena-removebg-preview.png' },
+{ id: 4, name: 'Empanada Hawaianas ', price: 3000, category: 'Desayuno', image: 'https://i.ibb.co/7dvhZByB/pngtree-mexican-empanadas-tradit.png' },
+{ id: 5, name: 'Empanada Pollo Queso ', price: 3000, category: 'Desayuno', image: 'https://i.ibb.co/7dvhZByB/pngtree-mexican-empanadas-tradit.png' },
+{ id: 6, name: 'Empanada Arroz pollo', price: 3000, category: 'Desayuno', image: 'https://i.ibb.co/7dvhZByB/pngtree-mexican-empanadas-tradit.png' },
+{ id: 7, name: 'cafe con leche', price: 1500, category: 'Desayuno', image: 'https://i.ibb.co/QLv6ZhJ/a-hot-latte-coffee-cup-free-png.png" alt="a-hot-latte-coffee-cup-free-png' },
+{ id: 8, name: 'Tinto', price: 1000, category: 'Desayuno', image: 'https://i.ibb.co/gMqNNTnB/c2bc4343251765-57e94c12d4176-removebg-preview.png' },
+// Gaseosas
+{ id: 9, name: 'Coca-Cola Original 1.5L', price: 5010, category: 'Gaseosas', image: 'https://i.ibb.co/gWCPZNc/image-removebg-preview-76.png' },
+{ id: 10, name: 'Coca-Cola Zero 300ml', price: 3000, category: 'Gaseosas', image: 'https://i.ibb.co/yy1Cy1X/coca-zero-01-removebg-preview.png' },
+{ id:11, name: 'Coca-Cola Original 330ml', price: 3000, category: 'Gaseosas', image: 'https://i.ibb.co/gThqq6V/112952-1-109-removebg-preview.png' },
+{ id: 12, name: 'Postobón Manzana 400ml', price: 2600, category: 'Gaseosas', image: 'https://i.ibb.co/XVGBwns/postobon-400ml-removebg-preview.png' },
+{ id: 13, name: 'Postobón Uva 400ml', price: 2600, category: 'Gaseosas', image: 'https://i.ibb.co/XVGBwns/postobon-400ml-removebg-preview.png' },
+{ id: 14, name: 'Postobón Naranja 400ml', price: 2600, category: 'Gaseosas', image: 'https://i.ibb.co/XVGBwns/postobon-400ml-removebg-preview.png' },
+{ id: 15, name: 'Postobón Pepsi 400ml', price: 2600, category: 'Gaseosas', image: 'https://i.ibb.co/XVGBwns/postobon-400ml-removebg-preview.png' },
+{ id: 16, name: 'Postobón Hipinto 1.5L', price: 3500, category: 'Gaseosas', image: 'https://i.ibb.co/gM5V29m/producto31.png' },
+            
+          // Rehidratantes
+{ id: 17, name: 'Electrolit Maracuyá 625ml', price: 7500, category: 'Rehidratantes', image: 'https://i.ibb.co/nD8kLqm/electrolit-removebg-preview-1.png' },
+{ id: 18, name: 'Electrolit Limón 625ml', price: 7500, category: 'Rehidratantes', image: 'https://i.ibb.co/nD8kLqm/electrolit-removebg-preview-1.png' },
+{ id: 19, name: 'Electrolit Naranja 625ml', price: 7500, category: 'Rehidratantes', image: 'https://i.ibb.co/nD8kLqm/electrolit-removebg-preview-1.png' },
+{ id: 20, name: 'Bebida Energizante Vive 100 Zero x 380 ml', price: 2600, category: 'Rehidratantes', image: 'https://i.ibb.co/0Mfq5ws/160752-1600-auto-removebg-preview.png' },
+{ id: 21, name: 'Bebida Hidratante Gatorade x 500 ml', price: 4300, category: 'Rehidratantes', image: 'https://i.ibb.co/gVQ9nkQ/shopping-removebg-preview-1.png' },
+{ id: 22, name: 'Bebida Energizante Speed Max x 2200 ml', price: 2500, category: 'Rehidratantes', image: 'https://i.ibb.co/2k8Dv2h/159489-1600-auto-removebg-preview.png' },
+
+// Snacks
+{ id: 66, name: 'Papas Margarita 75g', price: 2900, category: 'Snacks', image: 'https://i.ibb.co/kgVRx5M/197076-800-800-removebg-preview.png' },
+{ id: 67, name: 'De Todito 45g', price: 3200, category: 'Snacks', image: 'https://i.ibb.co/4g0KhSM/338132-800-800-removebg-preview.png' },
+{ id: 68, name: 'Doritos 45g', price: 2800, category: 'Snacks', image: 'https://i.ibb.co/FwZrV0M/515-DMl-Nad-UL-removebg-preview-1.png' },
+{ id: 69, name: 'La Especial Mani Krack 25g', price: 1600, category: 'Snacks', image: 'https://i.ibb.co/RyrFpsJ/supermercados-la-vaquita-superva-removebg-preview.png' },
+
+// Confitería
+{ id: 50, name: 'Chiclets Menta x12 chicles', price: 1690, category: 'Confitería', image: 'https://i.ibb.co/y5C02h6/7622210429209-1-removebg-preview.png' },
+{ id: 51, name: 'Chocolatina Jumbo Chocoarequipe x170grs', price: 12990, category: 'Confitería', image: 'https://i.ibb.co/QMVVGJ2/707491-800-800-removebg-preview.png' },
+{ id: 52, name: 'Chocolatina Jet pq', price: 1500, category: 'Confitería', image: 'https://i.ibb.co/s12sFB1/shopping-1-removebg-preview.png' },
+{ id: 53, name: 'Chocolatina Jet gr', price: 2500, category: 'Confitería', image: 'https://i.ibb.co/q0ZCddK/18-removebg-preview.png' },
+{ id: 54, name: 'Galletas CHOKIS Chispas Chocolate', price: 2000, category: 'Confitería', image: 'https://i.ibb.co/4dB1pRZ/Galleta-Dulce-Clasica-CHOKIS-222-removebg-preview.png' },
+{ id: 55, name: 'Ponqué Chocoramo Chocolate 65 G', price: 3000, category: 'Confitería', image: 'https://i.ibb.co/th662r4/946532-800-auto-removebg-preview.png' },
+{ id: 56, name: 'Galletas Oreo Original 54 g', price: 2200, category: 'Confitería', image: 'https://i.ibb.co/1bPnSdz/galletas-oreo-original-54-g-2-removebg-preview.png' },
+{ id: 57, name: 'Chupeta BON BON BUM Surtido x24und', price: 11900, category: 'Confitería', image: 'https://i.ibb.co/Nj0rr6g/Bon-Bon-Bum-Surtido-165524-a-removebg-preview.png' },
+{ id: 58, name: 'Chocolatina Jet Cookies & Cream 50g', price: 4000, category: 'Confitería', image: 'https://i.ibb.co/C6WzVDd/7702007061154-removebg-preview.png' },
+{ id: 59, name: 'Jumbo Chocolatina Jumbo Jet Maní 90g', price: 6500, category: 'Confitería', image: 'https://i.ibb.co/M5LkrLp/Glina-Chocolate-Mani-JUMBO-90-gr-removebg-preview.png' },
+{ id: 60, name: 'Jet Chocolatina Jet Mini Surtida 6g x24 Unds', price: 13900, category: 'Confitería', image: 'https://i.ibb.co/7gywQkJ/602f589a2893b-removebg-preview.png' },
+{ id: 62, name: 'Millows Masmelos Cream Individual - Bolsa X 50 Und ', price: 10500, category: 'Confitería', image: 'https://i.ibb.co/bWSKwrm/D-NQ-NP-675701-MCO41709393544-05-removebg-preview.png' },
+{ id: 62, name: 'Trident Value Menta 30,6g', price: 4900, category: 'Confitería', image: 'https://i.ibb.co/09Fpnxj/7506105606053-30-removebg-preview-1.png' },
+{ id: 63, name: 'Chocolatina Gol 28 G X3 Unds', price: 4990, category: 'Confitería', image: 'https://i.ibb.co/FzCs6HJ/167184-800-800-removebg-preview.png' },
+{ id: 64, name: 'Chocolatina Jumbo Rosca 31 G', price: 3800, category: 'Confitería', image: 'https://i.ibb.co/Zd2nDKh/170709-800-450-removebg-preview.png' },
+{ id: 65, name: 'Ponque Gala Tajada x 60 g Vainilla', price: 2500, category: 'Confitería', image: 'https://i.ibb.co/LZFbsgz/7702914597982-removebg-preview.png' }
+
+            // ... [Previous products continued]
+
+            // Add all other products here following the same pattern
+        ];
+
+        let cart = [];
+        const DELIVERY_COST = 3500;
+
+        function verifyAge(isAdult) {
+            if (isAdult) {
+                document.getElementById('age-verification').style.display = 'none';
+                document.getElementById('store-content').style.display = 'block';
+                localStorage.setItem('ageVerified', 'true');
+            } else {
+                window.location.href = 'https://www.google.com';
+            }
+        }
+
+        function renderProducts() {
+            const container = document.getElementById('products-container');
+            const categories = [...new Set(products.map(p => p.category))];
+            
+            categories.forEach(category => {
+                const categoryProducts = products.filter(p => p.category === category);
+                const section = document.createElement('section');
+                section.className = 'category-section';
+                section.innerHTML = `
+                    <h2 class="category-title">${category}</h2>
+                    <div class="products-grid">
+                        ${categoryProducts.map(product => `
+                            <div class="product-card">
+                                <img src="${product.image}" alt="${product.name}" class="product-image">
+                                <h3 class="product-name">${product.name}</h3>
+                                <p class="product-price">$${product.price.toLocaleString()}</p>
+                                <button onclick="addToCart(${product.id})" class="add-to-cart">
+                                    Agregar al Carrito
+                                </button>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                container.appendChild(section);
+            });
+        }
+function searchProducts() {
+    const searchTerm = document.getElementById("search-input").value.toLowerCase();
+    const filteredProducts = products.filter(product => 
+        product.name.toLowerCase().includes(searchTerm)
+    );
+
+    displayProducts(filteredProducts);
+}
+
+function displayProducts(productList) {
+    const container = document.getElementById("products-container");
+    container.innerHTML = "";
+
+    if (productList.length === 0) {
+        container.innerHTML = "<p>No se encontraron productos.</p>";
+        return;
+    }
+
+    productList.forEach(product => {
+        const productDiv = document.createElement("div");
+        productDiv.classList.add("product");
+        productDiv.innerHTML = `
+            <img src="${product.image}" alt="${product.name}" width="100">
+            <h3>${product.name}</h3>
+            <p>Precio: $${product.price.toLocaleString()}</p>
+            <button onclick="addToCart(${product.id})" class="add-to-cart">Agregar al Carrito</button>
+        `;
+        container.appendChild(productDiv);
+    });
+}
+
+function renderProducts() {
+    const container = document.getElementById('products-container');
+    container.innerHTML = ""; // Limpiar contenido previo
+    const categories = [...new Set(products.map(p => p.category))];
+    
+    categories.forEach(category => {
+        const categoryProducts = products.filter(p => p.category === category);
+        const section = document.createElement('section');
+        section.className = 'category-section';
+        section.innerHTML = `
+            <h2 class="category-title">${category}</h2>
+            <div class="products-grid">
+                ${categoryProducts.map(product => `
+                    <div class="product-card">
+                        <img src="${product.image}" alt="${product.name}" class="product-image">
+                        <h3 class="product-name">${product.name}</h3>
+                        <p class="product-price">$${product.price.toLocaleString()}</p>
+                        <button onclick="addToCart(${product.id})" class="add-to-cart">Agregar al Carrito</button>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+        container.appendChild(section);
+    });
+}
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                cart.push(product);
+                updateCartDisplay();
+            }
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartDisplay();
+        }
+
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cart-items');
+            cartItems.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <span>${item.name}</span>
+                    <span>$${item.price.toLocaleString()}</span>
+                    <button onclick="removeFromCart(${item.id})">×</button>
+                </div>
+            `).join('');
+            updateTotal();
+        }
+
+        function updateTotal() {
+            const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
+            const includeDelivery = document.getElementById('delivery-checkbox').checked;
+            const total = includeDelivery ? subtotal + DELIVERY_COST : subtotal;
+            document.getElementById('cart-total').textContent = `Total: $${total.toLocaleString()}`;
+            document.getElementById('delivery-address').style.display = includeDelivery ? 'block' : 'none';
+        }
+
+        function checkout() {
+            const phone = document.getElementById('phone-input').value;
+            const includeDelivery = document.getElementById('delivery-checkbox').checked;
+            const address = includeDelivery ? document.getElementById('address-input').value : '';
+            const payment = document.querySelector('input[name="payment"]:checked')?.value;
+
+            if (!phone) {
+                alert('Por favor ingresa tu número de teléfono');
+                return;
+            }
+            if (includeDelivery && !address) {
+                alert('Por favor ingresa tu dirección de envío');
+                return;
+            }
+            if (!payment) {
+                alert('Por favor selecciona un método de pago');
+                return;
+            }
+
+            const message = `
+🛒 *Nuevo Pedido*
+
+*Productos:*
+${cart.map(item => `- ${item.name}: $${item.price.toLocaleString()}`).join('\n')}
+
+*Subtotal:* $${cart.reduce((sum, item) => sum + item.price, 0).toLocaleString()}
+${includeDelivery ? `*Envío:* $${DELIVERY_COST.toLocaleString()}` : ''}
+*Total:* $${(cart.reduce((sum, item) => sum + item.price, 0) + (includeDelivery ? DELIVERY_COST : 0)).toLocaleString()}
+
+*Datos de entrega:*
+${includeDelivery ? `📍 Dirección: ${address}` : '🏪 Retiro en tienda'}
+📱 Teléfono: ${phone}
+💰 Método de pago: ${payment}
+            `;
+
+            window.open(`https://wa.me/573204828022?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        // Check age verification on load
+        window.onload = function() {
+            if (localStorage.getItem('ageVerified') === 'true') {
+                document.getElementById('age-verification').style.display = 'none';
+                document.getElementById('store-content').style.display = 'block';
+            } else {
+                document.getElementById('age-verification').style.display = 'flex';
+            }
+            renderProducts();
+        };
+    </script>
+    <img src="https://i.ibb.co/Y7bnCFQK/01918c5c-2bf2-7dfe-b419-8c1282a7.png" alt="Encabezado" style="width: 100%; height: auto;">
+
+    <footer style="text-align: center; padding: 1rem 0; background: #1a202c; color: #fff; font-size: 0.9rem;">
+    © <span id="current-year"></span> SurtidoMarket – Todos los derechos reservados.<br>
+    La reproducción total o parcial del contenido está estrictamente prohibida sin autorización previa.
+</footer>
+
+<script>
+    // Actualiza automáticamente el año actual
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
+
+
+
